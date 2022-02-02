@@ -1,6 +1,14 @@
 @extends('layouts.app')
 
 @section('content')
+
+@section('meta_title')  {{ $blog->meta_title }}  @endsection
+@section('meta_description')  {{ $blog->meta_description }}  @endsection
+		<div class="bg-light p-5 rounded-lg m-3">
+			@if($blog->featured_image)
+				<img src="/images/featured_images/{{ $blog->featured_image ? $blog->featured_image : '' }}" alt="{{ Str::limit($blog->title, 50) }}" class="img-responsive featured_image"><br/>
+			@endif
+		</div>
 		<div class="col-md-12">
 		  <h1>{{ $blog->title }}</h1>
 		</div>
@@ -15,7 +23,7 @@
 		  </div>
 		</div>
 		<div class="col-md-12">
-			<p>{{ $blog->body }}</p>
+			<p>{!! $blog->body !!}</p>
 			<hr>
 			<strong>Categories: </strong>
 			@foreach($blog->category as $category)

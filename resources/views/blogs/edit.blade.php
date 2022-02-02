@@ -17,6 +17,20 @@
 					<label for="body">Body</label>
 					<textarea type="text" name="body" class="form-control">{{ $blog->body }}</textarea>
 				</div>
+				<div class="form-group">
+					{{ $blog->category->count() ? 'Current categories' : '' }}
+				    @foreach($blog->category as $category)
+						<input type="checkbox" value="{{ $category->id }}" name="category_id[]" class="form-check-input" checked>
+						<label class="form-check-label">{{ $category->name }}</label>
+					@endforeach
+				</div>
+				<div class="form-group">
+					{{ $filtered->count() ? 'Unused categories' : '' }}
+				    @foreach($filtered as $category)
+						<input type="checkbox" value="{{ $category->id }}" name="category_id[]" class="form-check-input">
+						<label class="form-check-label">{{ $category->name }}</label>
+					@endforeach
+				</div>
 				<button class="btn btn-primary" type="submit">Update Blog</button>
 				@csrf
 			</form>

@@ -41,3 +41,8 @@ Route::get('/admin',  [App\Http\Controllers\AdminController::class, 'index'])->n
 
 //Route resource
 Route::resource('/categories', CategoryController::class);
+
+//File Manager
+Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
+     \UniSharp\LaravelFilemanager\Lfm::routes();
+ });

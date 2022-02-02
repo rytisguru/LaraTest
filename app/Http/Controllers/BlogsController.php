@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Blog;
 use App\Models\Category;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 
 class BlogsController extends Controller
 {
@@ -20,6 +22,16 @@ class BlogsController extends Controller
 	
 	public function store(Request $request) {
 		$input = $request->all();
+		//meta
+		$input['slug'] = Str::slug($request['title']);
+		$input['meta_title'] = Str::limit($request['title'], 50);
+		$input['meta_description'] = Str::limit($request['body'], 150);
+		//image
+		if ($file = $request->file('featured_image')) {
+			$name = uniqid() . $file->getClientOriginalName();
+			$file->move('images/featured_images/', $name);
+			$input['featured_image'] = $name;
+		}
 		$blog = Blog::create($input);
 		//sync cats
 		if ($request->category_id) {
@@ -35,13 +47,26 @@ class BlogsController extends Controller
 	
 	public function edit($id) {
 		$blog = Blog::findOrFail($id);
-		return view('blogs.edit', compact('blog'));
+		$categories = Category::latest()->get();
+
+		$bc = array();
+		foreach ($blog->category as $c) {
+			$bc[] = $c->id;
+		}
+
+		$filtered = Arr::except($categories, $bc);
+
+		return view('blogs.edit', compact('blog', 'categories', 'filtered'));
 	}
 	
 	public function update(Request $request, $id) {
 		$input = $request->all();
 		$blog = Blog::findOrFail($id);
 		$blog->update($input);
+		//sync cats
+		if ($request->category_id) {
+			$blog->category()->sync($request->category_id);
+		}
 		return redirect('blogs');
 	}
 	
