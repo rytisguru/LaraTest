@@ -1,11 +1,9 @@
 @extends('layouts.app')
-
 @section('content')
-@include('partials.tinymce');
-
-	<div class="container-fluid">
-		<div class="bg-light p-5 rounded-lg m-3">
-			<h1>Create a new blog</h1>
+@include('partials.tinymce')
+	<div class="container-lg my-2">
+		<div class="py-3 mb-4 bg-light rounded-3">
+			<h1 class="text-center">Create a new blog</h1>
 		</div>
 		<div class="col-md-12">
 			<form action="{{ route('blogs.store') }}" method="post" enctype="multipart/form-data">
@@ -27,7 +25,9 @@
 					<label for="featured_image">Featured Image</label>
 					<input type="file" name="featured_image" class="form-control">
 				</div>
+				<div class="d-grid gap-2">
 				<button class="btn btn-primary" type="submit">Create Blog</button>
+			</div>
 				@csrf
 			</form>
 		</div>

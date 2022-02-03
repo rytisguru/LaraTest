@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
@@ -10,7 +10,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
-                        <li><a class="nav-link" href="{{ route('blogs') }}">Blogs <span class="badge bg-dark text-white">{{ $blog->count() }}</span></a></li>
+                        <li><a class="nav-link" href="{{ route('blogs') }}">Blogs <span class="badge bg-dark text-white">{{ $blogs->where('status', 1)->count() }}</span></a></li>
 						<li><a class="nav-link" href="{{ route('blogs.create') }}">Create</a></li>
                         <li><a class="nav-link" href="{{ route('admin.index') }}">Admin</a></li>
                         <li><a class="nav-link" href="{{ route('categories.index') }}">Categories</a></li>

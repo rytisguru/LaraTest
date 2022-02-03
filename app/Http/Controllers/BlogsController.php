@@ -11,7 +11,7 @@ use Illuminate\Support\Str;
 class BlogsController extends Controller
 {
     public function index() {
-		$blogs = Blog::latest()->get();
+		$blogs = Blog::where('status', 1)->latest()->get();
 		return view('blogs.index', compact('blogs'));
 	}
 	
@@ -32,10 +32,10 @@ class BlogsController extends Controller
 			$file->move('images/featured_images/', $name);
 			$input['featured_image'] = $name;
 		}
-		$blog = Blog::create($input);
+		$blogByUser = $request->user()->blogs()->create($input);
 		//sync cats
 		if ($request->category_id) {
-			$blog->category()->sync($request->category_id);
+			$blogByUser->category()->sync($request->category_id);
 		}
 		return redirect('/blogs');
 	}

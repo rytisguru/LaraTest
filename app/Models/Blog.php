@@ -11,10 +11,14 @@ class Blog extends Model
     use HasFactory, SoftDeletes;
 	
 	//protected $table = 'my_blogs';
-	protected $fillable = ['title', 'body', 'featured_image', 'slug', 'meta_title', 'meta_description'];
+	protected $fillable = ['title', 'body', 'featured_image', 'slug', 'meta_title', 'meta_description', 'status'];
 	protected $dates = ['deleted_at'];
 
 	public function category() {
 		return $this->belongsToMany(Category::class);
 	}
+
+	public function user() {
+        return $this->belongsTo(User::class);
+    }
 }

@@ -1,10 +1,9 @@
 @extends('layouts.app')
-
 @section('content')
-
-	<div class="container-fluid">
-		<div class="bg-light p-5 rounded-lg m-3">
-			<h1>Edit blog</h1>
+@include('partials.tinymce')
+	<div class="container-lg my-2">
+		<div class="py-3 mb-3 bg-light rounded-3">
+			<h1 class="text-center">Edit blog</h1>
 		</div>
 		<div class="col-md-12">
 			<form action="{{ route('blogs.update', $blog->id) }}" method="post">
@@ -15,7 +14,7 @@
 				</div>
 				<div class="form-group">
 					<label for="body">Body</label>
-					<textarea type="text" name="body" class="form-control">{{ $blog->body }}</textarea>
+					<textarea type="text" name="body" class="form-control my-editor">{{ $blog->body }}</textarea>
 				</div>
 				<div class="form-group">
 					{{ $blog->category->count() ? 'Current categories' : '' }}
@@ -31,7 +30,9 @@
 						<label class="form-check-label">{{ $category->name }}</label>
 					@endforeach
 				</div>
+				<div class="d-grid gap-2">
 				<button class="btn btn-primary" type="submit">Update Blog</button>
+			</div>
 				@csrf
 			</form>
 		</div>

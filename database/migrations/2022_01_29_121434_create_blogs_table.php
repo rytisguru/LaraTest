@@ -20,8 +20,14 @@ class CreateBlogsTable extends Migration
             $table->string('meta_description')->nullable();
 			$table->string('title');
 			$table->text('body');
+            $table->string('featured_image')->nullable();
+            $table->integer('status')->default(0);
+            $table->integer('user_id')->unsigned()->index()->nullable();
             $table->softDeletes();
             $table->timestamps();
+        });
+        Schema::table('blogs', function(Blueprint $table) {
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

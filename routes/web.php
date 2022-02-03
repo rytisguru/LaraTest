@@ -38,6 +38,7 @@ Route::get('/logout', [App\Http\Controllers\HomeController::class, 'index'])->na
 
 //admin routes
 Route::get('/admin',  [App\Http\Controllers\AdminController::class, 'index'])->name('admin.index');
+Route::get('/admin/blogs',  [App\Http\Controllers\AdminController::class, 'blogs'])->name('admin.blogs');
 
 //Route resource
 Route::resource('/categories', CategoryController::class);
