@@ -6,15 +6,26 @@
 
 <div class="container-lg my-2">
   <div class="py-3 mb-4 bg-light rounded-3">
-	<h1 class="text-center">Blogs</h1>
+	  <h1 class="text-center">Blogs</h1>
   </div>
   <div class="container">
+  @if(Session::has('blog_created_message'))
+  	<div class="alert alert-success">
+  		{{ Session::get('blog_created_message') }}
+  		<button type="button" class="close text-end" data-bs-dismiss="alert" aria-hidden="true">&times;</button>
+  	</div>
+  @endif
 	@foreach($blogs as $blog)
-		<h1><a href={{ route('blogs.show', [$blog->id]) }}>{{ $blog->title }}</a></h1>
-		<p>{!! $blog->body !!}</p>
+		<h1><a href="{{ route('blogs.show', [$blog->slug]) }}">{{ $blog->title }}</a></h1>
+		{!! $blog->body !!}
+		@if($blog->user)
+		<div class="text-end">
+			Author: <a href="{{ route('users.show', $blog->user->name) }}">{{ $blog->user->name }}</a> Posted: {{ $blog->created_at->diffForHumans() }}
+		</div>
+		@endif
+	<hr>
 	@endforeach
   </div>
-  <hr>
 </div> 
 
 @endsection

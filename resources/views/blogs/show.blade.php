@@ -7,7 +7,7 @@
 		<div class="col-md-10">
 			<h1>{{ $blog->title }}</h1>
 		</div>
-		<div class= "col-md-2">
+		<div class= "col-md-2 text-end">
 			<div class="btn-group">
 			  <a class="btn btn-primary btn-sm rounded-3" href="{{ route('blogs.edit', $blog->id) }}"> Edit</a>
 			  <form method="post" action="{{ route('blogs.delete', $blog->id) }}">
@@ -23,7 +23,12 @@
 			@endif
 		</div>
 		<div class="col-md-12">
-			<p>{!! $blog->body !!}</p>
+			{!! $blog->body !!}
+			@if($blog->user)
+				<div class="text-end">
+					Author: <a href="{{ route('users.show', Str::slug($blog->user->name)) }}">{{ $blog->user->name }}</a> Posted: {{ $blog->created_at->diffForHumans() }}
+				</div>
+			@endif
 			<hr>
 			<strong>Categories: </strong>
 			@foreach($blog->category as $category)

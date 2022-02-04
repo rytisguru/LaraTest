@@ -10,9 +10,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
-                        <li><a class="nav-link" href="{{ route('blogs') }}">Blogs <span class="badge bg-dark text-white">{{ $blogs->where('status', 1)->count() }}</span></a></li>
-						<li><a class="nav-link" href="{{ route('blogs.create') }}">Create</a></li>
-                        <li><a class="nav-link" href="{{ route('admin.index') }}">Admin</a></li>
+                        <li><a class="nav-link" href="{{ route('blogs') }}">Blogs <span class="badge bg-dark text-white">{{ $blogs->count() }}</span></a></li>
                         <li><a class="nav-link" href="{{ route('categories.index') }}">Categories</a></li>
                     </ul>
 
@@ -32,6 +30,16 @@
                                 </li>
                             @endif
                         @else
+                            @if (Auth::user() && (Auth::user()->role_id === 1 || Auth::user()->role_id === 2))
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('blogs.create') }}">Create Blog</a>
+                                </li>
+                            @endif
+                            @if (Auth::user())
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('dashboard') }}">Dashboard</a>
+                            </li>
+                            @endif
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}

@@ -7,9 +7,16 @@ use App\Models\Blog;
 use App\Models\Category;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Session;
 
 class BlogsController extends Controller
 {
+
+	public function __construct() {
+		$this->middleware('author', ['only' => ['create', 'store', 'edit', 'update']]);
+		$this->middleware('admin', ['only' => ['delete', 'trash', 'restore', 'permamentDelete']]);
+	}
+
     public function index() {
 		$blogs = Blog::where('status', 1)->latest()->get();
 		return view('blogs.index', compact('blogs'));
@@ -21,6 +28,13 @@ class BlogsController extends Controller
 	}
 	
 	public function store(Request $request) {
+		//validate
+		$rules = [
+			'title' => ['required', 'min:20', 'max:160'],
+			'body' => ['required', 'min:200'],
+		];
+		$this->validate($request, $rules);
+
 		$input = $request->all();
 		//meta
 		$input['slug'] = Str::slug($request['title']);
@@ -37,11 +51,12 @@ class BlogsController extends Controller
 		if ($request->category_id) {
 			$blogByUser->category()->sync($request->category_id);
 		}
+		Session::flash('blog_created_message', 'Blog created successful - CONGRATS!');
 		return redirect('/blogs');
 	}
 	
-	public function show($id) {
-		$blog = Blog::findOrFail($id);
+	public function show($slug) {
+		$blog = Blog::whereSlug($slug)->first();
 		return view('blogs.show', compact('blog'));
 	}
 	
@@ -84,7 +99,7 @@ class BlogsController extends Controller
 	public function restore($id) {
 		$restoredBlog = Blog::onlyTrashed()->findOrFail($id);
 		$restoredBlog->restore($restoredBlog);
-		return redirect('blogs');
+		return redirect('blogs/trash');
 	}
 
 	public function permamentDelete($id) {

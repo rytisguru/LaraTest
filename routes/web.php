@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\UsersController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,11 +38,12 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('/logout', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 //admin routes
-Route::get('/admin',  [App\Http\Controllers\AdminController::class, 'index'])->name('admin.index');
+Route::get('/dashboard',  [App\Http\Controllers\AdminController::class, 'index'])->name('dashboard');
 Route::get('/admin/blogs',  [App\Http\Controllers\AdminController::class, 'blogs'])->name('admin.blogs');
 
 //Route resource
 Route::resource('/categories', CategoryController::class);
+Route::resource('/users', UsersController::class);
 
 //File Manager
 Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {

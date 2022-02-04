@@ -11,11 +11,12 @@ class AdminController extends Controller
     //
 
     public function __construct() {
-        $this->middleware(['admin', 'auth']);
+        $this->middleware(['admin', 'auth'], ['only' => ['blogs']]);
+        $this->middleware('auth');
     }
 
     public function index() {
-        return view('admin.index');
+        return view('admin.dashboard');
     }
 
     public function blogs() {
