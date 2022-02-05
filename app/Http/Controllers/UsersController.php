@@ -9,7 +9,7 @@ class UsersController extends Controller
 {
 
     public function __construct() {
-        $this->middleware('admin'); 
+        $this->middleware('admin', ['except' => ['show']]);
     }
 
     /**
@@ -51,8 +51,7 @@ class UsersController extends Controller
      */
     public function show($name)
     {
-        //$name = Str::replace('-', ' ', $name);
-        $user = User::where('name', $name)->first();
+        $user = User::whereSlug($name)->first();
         return view('users.show', compact('user'));
     }
 

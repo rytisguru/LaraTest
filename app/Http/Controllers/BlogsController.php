@@ -43,6 +43,7 @@ class BlogsController extends Controller
 		//image
 		if ($file = $request->file('featured_image')) {
 			$name = uniqid() . $file->getClientOriginalName();
+			$name = Str::lower(Str::replace(' ', '-', $name));
 			$file->move('images/featured_images/', $name);
 			$input['featured_image'] = $name;
 		}
@@ -78,6 +79,17 @@ class BlogsController extends Controller
 		$input = $request->all();
 		$blog = Blog::findOrFail($id);
 		$blog->update($input);
+		//image
+		if ($file = $request->file('featured_image')) {
+			//delete old
+			if ($blog->featured_image) {
+				unlink('images/featured_images/'.$blog->featured_image);
+			}
+			$name = uniqid() . $file->getClientOriginalName();
+			$name = Str::lower(Str::replace(' ', '-', $name));
+			$file->move('images/featured_images/', $name);
+			$input['featured_image'] = $name;
+		}
 		//sync cats
 		if ($request->category_id) {
 			$blog->category()->sync($request->category_id);

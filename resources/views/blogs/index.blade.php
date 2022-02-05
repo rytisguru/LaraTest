@@ -16,13 +16,23 @@
   	</div>
   @endif
 	@foreach($blogs as $blog)
+
 		<h1><a href="{{ route('blogs.show', [$blog->slug]) }}">{{ $blog->title }}</a></h1>
-		{!! $blog->body !!}
+
+		@if($blog->featured_image)
+			<div class="col-md-12">
+				<img src="/images/featured_images/{{ $blog->featured_image ? $blog->featured_image : '' }}" alt="{{ Str::limit($blog->title, 50) }}" class="img-responsive featured_image">
+			</div>
+		@endif
+
+		{!! Str::limit($blog->body, 200) !!}
+
 		@if($blog->user)
 		<div class="text-end">
-			Author: <a href="{{ route('users.show', $blog->user->name) }}">{{ $blog->user->name }}</a> Posted: {{ $blog->created_at->diffForHumans() }}
+			Author: <a href="{{ route('users.show', Str::slug($blog->user->name)) }}">{{ $blog->user->name }}</a> Posted: {{ $blog->created_at->diffForHumans() }}
 		</div>
 		@endif
+
 	<hr>
 	@endforeach
   </div>

@@ -3,7 +3,7 @@
 <div class="container-lg my-2">
     <div class="row">
         <div class="col-md-6">
-            <div class="p-3 mb-2 bg-light border rounded-3">
+            <div class="p-3 mb-2 bg-light rounded-3">
                 <h1 class="text-center">Published Blogs</h1>
             </div>
             @foreach($publishedBlogs as $blog)

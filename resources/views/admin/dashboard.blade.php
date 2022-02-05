@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
 <div class="container-lg my-2">
-    <div class="p-3 mb-4 bg-light border rounded-3">
+    <div class="p-3 mb-4 bg-light rounded-3">
     @if (Auth::user() && Auth::user()->role_id === 1)
         <h1 class="text-center">Admin Page</h1>
     </div>
