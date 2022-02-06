@@ -8,6 +8,9 @@ use App\Models\Category;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Session;
+use App\Models\User;
+use App\Mail\BlogPublished;
+use Illuminate\Support\Facades\Mail;
 
 class BlogsController extends Controller
 {
@@ -36,6 +39,8 @@ class BlogsController extends Controller
 		$this->validate($request, $rules);
 
 		$input = $request->all();
+		//auto publish
+		$input['status'] = 1;
 		//meta
 		$input['slug'] = Str::slug($request['title']);
 		$input['meta_title'] = Str::limit($request['title'], 50);
@@ -52,6 +57,13 @@ class BlogsController extends Controller
 		if ($request->category_id) {
 			$blogByUser->category()->sync($request->category_id);
 		}
+
+		//send mail
+		$users = User::all();
+		foreach($users as $user) {
+			Mail::to($user->email)->queue(new BlogPublished($blogByUser, $user));
+		}
+
 		Session::flash('blog_created_message', 'Blog created successful - CONGRATS!');
 		return redirect('/blogs');
 	}

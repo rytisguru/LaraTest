@@ -15,6 +15,12 @@
   		<button type="button" class="close text-end" data-bs-dismiss="alert" aria-hidden="true">&times;</button>
   	</div>
   @endif
+  @if(Session::has('contact_form_send'))
+  	<div class="alert alert-success">
+  		{{ Session::get('contact_form_send') }}
+  		<button type="button" class="close text-end" data-bs-dismiss="alert" aria-hidden="true">&times;</button>
+  	</div>
+  @endif
 	@foreach($blogs as $blog)
 
 		<h1><a href="{{ route('blogs.show', [$blog->slug]) }}">{{ $blog->title }}</a></h1>
@@ -25,7 +31,7 @@
 			</div>
 		@endif
 
-		{!! Str::limit($blog->body, 200) !!}
+		{!! strip_tags(Str::limit($blog->body, 200)) !!}
 
 		@if($blog->user)
 		<div class="text-end">

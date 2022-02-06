@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\MailController;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,3 +50,7 @@ Route::resource('/users', UsersController::class);
 Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
      \UniSharp\LaravelFilemanager\Lfm::routes();
  });
+
+//Contact Routes
+Route::get('/contact',  [App\Http\Controllers\MailController::class, 'contact'])->name('contact');
+Route::post('/contact/send',  [App\Http\Controllers\MailController::class, 'send'])->name('mail.send');

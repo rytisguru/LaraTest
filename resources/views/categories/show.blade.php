@@ -7,7 +7,7 @@
 		</div>
 		<div class="col-md-12">
 			@foreach($category->blog as $blog)
-				<a href="{{ route('blogs.show', $blog->id) }}">{{ $blog->title }}</a><br/>
+				<a href="{{ route('blogs.show', $blog->slug) }}">{{ $blog->title }}</a><br/>
 			@endforeach
 		</div>
 	</div>
